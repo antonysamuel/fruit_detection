@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+ 
+{% block content %}
+<div class="row">
+    
+    <form method="post" action="/upload" enctype="multipart/form-data">
+        <dl>
+            <p>
+                <input class="form-control-file" type="file" name="file" autocomplete="off" required onchange="loadFile(event)">
+            </p>
+            <p><img id="output" class="rounded" width="200"/></p>
+        </dl>
+        <p>
+            <input type="submit" class="btn btn-primary mb-2" value="Submit">
+        </p>
+    </form>
+    <div class="col-12">
+    {% for rs in show %}
+        <div class="text-center">
+
+            <img width="400" class="rounded" src="{{ url_for('images', path=rs) }}">  
+        </div>
+    {% endfor %}  
+    </div>
+    {% if dct %}
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+              <th scope="col">Fruit</th>
+              <th scope="col">Count</th>
+              
+            </tr>
+          </thead>
+          <tbody>
+        {% for k,v in dct.items() %}
+            <tr>
+              <th scope="row">{{loop.index}}</th>
+              <td>{{k}}</td>
+              <td>{{v}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</div>    
+<script>
+    var loadFile = function(event) {
+        var image = document.getElementById('output');
+        image.src=URL.createObjectURL(event.target.files[0]);
+    };
+</script>
+{% endblock content %}
